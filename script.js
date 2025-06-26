@@ -39,3 +39,36 @@ botao.addEventListener('click', async () => {
         console.log('Dados que foram salvos:', data);
     }
 });
+// --- LENDO E EXIBINDO OS DADOS ---
+
+// Passo 1: Criar uma função para buscar e mostrar os perfis na tela
+async function buscarPerfis() {
+    console.log('Iniciando busca de perfis...');
+
+    // Passo 2: Usar o Supabase para LER os dados da tabela 'profiles'
+    // O .select('*') significa "selecione todas as colunas"
+    const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('*');
+
+    // Passo 3: Verificar se a busca deu certo ou deu erro
+    if (error) {
+        console.error('Erro ao buscar perfis:', error);
+    } else {
+        console.log('Perfis encontrados:', data); // Para vermos os dados no console
+
+        // Passo 4: Encontrar a lista vazia no HTML pelo seu 'id'
+        const lista = document.querySelector('#lista-perfis');
+        lista.innerHTML = ''; // Limpa a lista antes de adicionar os itens
+
+        // Passo 5: Para cada perfil encontrado, criar um item na lista
+        data.forEach(perfil => {
+            const itemLista = document.createElement('li');
+            itemLista.textContent = `Nome: ${perfil.nome} - Email: ${perfil.email}`;
+            lista.appendChild(itemLista);
+        });
+    }
+}
+
+// Passo 6: Chamar a função para que ela seja executada assim que a página carregar
+buscarPerfis();
