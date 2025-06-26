@@ -10,7 +10,21 @@
     <div class="container">
         <h1>Meu Site de Estudo</h1>
         <p>A atualização automática funcionou perfeitamente!</p>
-        <button>Botão de Teste</button>
+        <form id="form-cadastro">
+    <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+    </div>
+    <button type="submit">Cadastrar</button>
+</form>
         <h2>Perfis Cadastrados:</h2>
     <ul id="lista-perfis">
         </ul>
