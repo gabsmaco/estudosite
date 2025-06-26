@@ -12,8 +12,39 @@ console.log('Conexão com o Supabase estabelecida com sucesso!', supabaseClient)
 // --- FAZENDO O BOTÃO FUNCIONAR ---
 
 // Passo 1: "Pegar" o botão que está no nosso HTML
-const botao = document.querySelector('button');
+// --- LÓGICA DO FORMULÁRIO DE CADASTRO ---
 
+// Passo 1: "Pegar" o nosso formulário do HTML pelo seu 'id'
+const formCadastro = document.querySelector('#form-cadastro');
+
+// Passo 2: "Ouvir" o evento de envio (submit) do formulário
+formCadastro.addEventListener('submit', async (event) => {
+    // Isso impede que a página recarregue, que é o comportamento padrão de um formulário
+    event.preventDefault(); 
+
+    // Passo 3: Pegar os valores que o usuário digitou em cada campo
+    const nomeUsuario = formCadastro.nome.value;
+    const emailUsuario = formCadastro.email.value;
+    const senhaUsuario = formCadastro.senha.value;
+
+    console.log('Cadastrando usuário:', nomeUsuario, emailUsuario);
+
+    // Passo 4: Enviar os dados para a tabela 'profiles' no Supabase
+    const { data, error } = await supabaseClient
+        .from('profiles')
+        .insert([
+            { nome: nomeUsuario, email: emailUsuario, senha: senhaUsuario },
+        ]);
+
+    // Passo 5: Verificar o resultado
+    if (error) {
+        alert('Erro no cadastro: ' + error.message);
+    } else {
+        alert('Usuário cadastrado com sucesso!');
+        formCadastro.reset(); // Limpa o formulário
+        buscarPerfis(); // Atualiza a lista de perfis na tela na hora!
+    }
+});
 // Passo 2: Adicionar um "ouvinte" para ficar esperando o clique no botão
 botao.addEventListener('click', async () => {
     // Quando o botão for clicado, o código aqui dentro será executado
